@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wsdl:definitions
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://service.touresbalon.com.co/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+	name="ServicioClientes"
+	targetNamespace="http://service.touresbalon.com.co/">
+	<wsdl:types>
+		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+			xmlns:tns="http://service.touresbalon.com.co/"
+			elementFormDefault="unqualified"
+			targetNamespace="http://service.touresbalon.com.co/" version="1.0">
+
+			<xs:element name="actualizarCliente"
+				type="tns:actualizarCliente" />
+
+			<xs:element name="actualizarClienteResponse"
+				type="tns:actualizarClienteResponse" />
+
+			<xs:element name="consultarClientePorFacturacion"
+				type="tns:consultarClientePorFacturacion" />
+
+			<xs:element name="consultarClientePorFacturacionResponse"
+				type="tns:consultarClientePorFacturacionResponse" />
+
+			<xs:element name="consultarClientePorIdentificacion"
+				type="tns:consultarClientePorIdentificacion" />
+
+			<xs:element
+				name="consultarClientePorIdentificacionResponse"
+				type="tns:consultarClientePorIdentificacionResponse" />
+
+			<xs:element name="consultarClientePorNumeroProducto"
+				type="tns:consultarClientePorNumeroProducto" />
+
+			<xs:element
+				name="consultarClientePorNumeroProductoResponse"
+				type="tns:consultarClientePorNumeroProductoResponse" />
+
+			<xs:element name="crearCliente" type="tns:crearCliente" />
+
+			<xs:element name="crearClienteResponse"
+				type="tns:crearClienteResponse" />
+
+			<xs:complexType
+				name="consultarClientePorNumeroProducto">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="filtro"
+						type="tns:filtroConsultaCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="filtroConsultaCliente">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="fechaFinal"
+						type="xs:dateTime" />
+					<xs:element minOccurs="0" name="fechaInicial"
+						type="xs:dateTime" />
+					<xs:element minOccurs="0" name="identificacion"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="numRows" type="xs:int" />
+					<xs:element minOccurs="0" name="numeroProducto"
+						type="xs:long" />
+					<xs:element minOccurs="0" name="pageNum" type="xs:int" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType
+				name="consultarClientePorNumeroProductoResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return"
+						type="tns:resultadoConsultaCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="resultadoConsultaCliente">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="clientesBO" nillable="true" type="tns:clienteBO" />
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="errores" nillable="true" type="tns:error" />
+					<xs:element name="resultado" type="xs:boolean" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="clienteBO">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="apellidos"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="correo" type="xs:string" />
+					<xs:element minOccurs="0" name="id" type="xs:string" />
+					<xs:element minOccurs="0" name="identificacion"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="nombres"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="status" type="xs:string" />
+					<xs:element minOccurs="0" name="telefono"
+						type="xs:string" />
+					<xs:element minOccurs="0" name="tipoTarjeta"
+						type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="error">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="codigo" type="xs:string" />
+					<xs:element minOccurs="0" name="mensaje"
+						type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="actualizarCliente">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cliente"
+						type="tns:clienteBO" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="actualizarClienteResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return"
+						type="tns:resultadoCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="resultadoCliente">
+				<xs:sequence>
+					<xs:element maxOccurs="unbounded" minOccurs="0"
+						name="errores" nillable="true" type="tns:error" />
+					<xs:element name="resultado" type="xs:boolean" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="crearCliente">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="cliente"
+						type="tns:clienteBO" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="crearClienteResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return"
+						type="tns:resultadoCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType name="consultarClientePorFacturacion">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="filtro"
+						type="tns:filtroConsultaCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType
+				name="consultarClientePorFacturacionResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return"
+						type="tns:resultadoConsultaCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType
+				name="consultarClientePorIdentificacion">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="filtro"
+						type="tns:filtroConsultaCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+			<xs:complexType
+				name="consultarClientePorIdentificacionResponse">
+				<xs:sequence>
+					<xs:element minOccurs="0" name="return"
+						type="tns:resultadoConsultaCliente" />
+				</xs:sequence>
+			</xs:complexType>
+
+		</xs:schema>
+	</wsdl:types>
+	<wsdl:message
+		name="consultarClientePorFacturacionResponse">
+		<wsdl:part
+			element="tns:consultarClientePorFacturacionResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="actualizarClienteResponse">
+		<wsdl:part element="tns:actualizarClienteResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="crearCliente">
+		<wsdl:part element="tns:crearCliente" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="consultarClientePorFacturacion">
+		<wsdl:part element="tns:consultarClientePorFacturacion"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="consultarClientePorNumeroProducto">
+		<wsdl:part element="tns:consultarClientePorNumeroProducto"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="actualizarCliente">
+		<wsdl:part element="tns:actualizarCliente" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message
+		name="consultarClientePorIdentificacionResponse">
+		<wsdl:part
+			element="tns:consultarClientePorIdentificacionResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="crearClienteResponse">
+		<wsdl:part element="tns:crearClienteResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="consultarClientePorIdentificacion">
+		<wsdl:part element="tns:consultarClientePorIdentificacion"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message
+		name="consultarClientePorNumeroProductoResponse">
+		<wsdl:part
+			element="tns:consultarClientePorNumeroProductoResponse"
+			name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:portType name="ClientesService">
+		<wsdl:operation
+			name="consultarClientePorNumeroProducto">
+			<wsdl:input
+				message="tns:consultarClientePorNumeroProducto"
+				name="consultarClientePorNumeroProducto">
+			</wsdl:input>
+			<wsdl:output
+				message="tns:consultarClientePorNumeroProductoResponse"
+				name="consultarClientePorNumeroProductoResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="actualizarCliente">
+			<wsdl:input message="tns:actualizarCliente"
+				name="actualizarCliente">
+			</wsdl:input>
+			<wsdl:output message="tns:actualizarClienteResponse"
+				name="actualizarClienteResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="crearCliente">
+			<wsdl:input message="tns:crearCliente" name="crearCliente">
+			</wsdl:input>
+			<wsdl:output message="tns:crearClienteResponse"
+				name="crearClienteResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="consultarClientePorFacturacion">
+			<wsdl:input message="tns:consultarClientePorFacturacion"
+				name="consultarClientePorFacturacion">
+			</wsdl:input>
+			<wsdl:output
+				message="tns:consultarClientePorFacturacionResponse"
+				name="consultarClientePorFacturacionResponse">
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="consultarClientePorIdentificacion">
+			<wsdl:input
+				message="tns:consultarClientePorIdentificacion"
+				name="consultarClientePorIdentificacion">
+			</wsdl:input>
+			<wsdl:output
+				message="tns:consultarClientePorIdentificacionResponse"
+				name="consultarClientePorIdentificacionResponse">
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="ServicioClientesSoapBinding"
+		type="tns:ClientesService">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation
+			name="consultarClientePorNumeroProducto">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="consultarClientePorNumeroProducto">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output
+				name="consultarClientePorNumeroProductoResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="actualizarCliente">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="actualizarCliente">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="actualizarClienteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="crearCliente">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="crearCliente">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="crearClienteResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="consultarClientePorFacturacion">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="consultarClientePorFacturacion">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output
+				name="consultarClientePorFacturacionResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation
+			name="consultarClientePorIdentificacion">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="consultarClientePorIdentificacion">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output
+				name="consultarClientePorIdentificacionResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="ServicioClientes">
+		<wsdl:port binding="tns:ServicioClientesSoapBinding"
+			name="ClientesServicePort">
+			<soap:address
+				location="http://18.217.208.15:38080/omsJboss/ServicioClientes/ClientesService" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1539299499000
+Build-Jdk: 1.8.0_121
+Built-By: arkazero
+Bundle-Description: OMS - Clientes
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.html
+Bundle-ManifestVersion: 2
+Bundle-Name: OMS - Clientes
+Bundle-SymbolicName: com.javariana.pica.oms-clientes
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: co.ogv.anh.services;version="1.0.0"
+Tool: Bnd-3.5.0.201709291849
