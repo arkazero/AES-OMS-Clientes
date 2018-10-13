@@ -37,6 +37,42 @@
         <route id="_route_ordenes" streamCache="true" trace="false">
             <from id="_from1" uri="cxfrs:bean:rsServer?bindingStyle=Default"/>
             <log id="_log1" message="Body :::: ${body}"/>
-        </route>    
+            <setHeader headerName="req" id="_setHeader5">
+                <simple>${body}</simple>
+            </setHeader>
+            <!-- 
+            <setHeader headerName="CamelVelocityResourceUri" id="_setHeader6">
+                <simple>templates/listarProductoCodigo.vm</simple>
+            </setHeader>
+            <to id="_to2" uri="velocity:dummy?loaderCache=false">
+                <description>Get xml request from template velocity</description>
+            </to>
+            <log id="_log2" message="Mensaje en Velocity :::: ${body}"/>
+            <setHeader headerName="SOAPAction" id="_setHeader7">
+                <constant>"http://xml.decameron.com/manageHolder"</constant>
+            </setHeader>
+            <setHeader headerName="operationName" id="_setHeader8">
+                <constant>manageHolder</constant>
+            </setHeader>
+            <setHeader headerName="operationNamespace" id="_setHeader9">
+                <constant/>
+            </setHeader>
+            <log id="_log1" loggerRef="bookingLog" message="::: Request VM: ${body}"/>
+            <setHeader headerName="Content-Type" id="_setHeader10">
+                <constant>application/soap+xml;charset=utf-8</constant>
+            </setHeader>
+            <setHeader headerName="CamelHttpMethod" id="_setHeader11">
+                <constant>POST</constant>
+            </setHeader>
+            <setHeader headerName="Host" id="_setHeader12">
+                <simple>{{decameron.booking.server}}</simple>
+            </setHeader>
+            <removeHeaders id="_removeHeaders1" pattern="req"/>
+            <to id="_to3" uri="https4://{{decameron.booking.detail.service.url}}?bridgeEndpoint=true&amp;sslContextParametersRef=sslContextParameters"/>
+            <setBody id="_setBody1">
+                <xpath logNamespaces="true" trim="true">//SOAP-ENV:Body/node()</xpath>
+            </setBody>
+			-->
+        </route>
     </camelContext>
 </beans>
