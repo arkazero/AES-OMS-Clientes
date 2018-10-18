@@ -4,7 +4,7 @@
       <ser:consultarClientePorFacturacion>
          <!--Optional:-->
          <filtro>
-            <identificacion>$!{headers.identificacion}</identificacion>
+            <identificacion>$!{body}</identificacion>
          </filtro>
       </ser:consultarClientePorFacturacion>
    </soapenv:Body>

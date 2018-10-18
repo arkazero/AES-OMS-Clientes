@@ -7,8 +7,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
+import co.com.touresbalon.service.ClienteBO;
+import co.com.touresbalon.service.FiltroConsultaCliente;
 import co.com.touresbalon.service.ResultadoConsultaCliente;
 
 @Path("/")
@@ -20,19 +24,18 @@ public interface RSClientes {
 	@Consumes(MediaType.APPLICATION_JSON)	
 	@Produces(MediaType.APPLICATION_JSON)	
 	@Path("/bucarIdentificacion/{id}")
-	public ResultadoConsultaCliente buscarIdentificacion (@PathParam("id")  String identificacion);
+	public FiltroConsultaCliente buscarIdentificacion (@Context UriInfo uri);
 	
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)	
 	@Produces(MediaType.APPLICATION_JSON)	
-	@Path("/bucarIdentificacion/{producto}")
+	@Path("/buscarProducto/{producto}")
 	public ResultadoConsultaCliente buscarProducto (@PathParam("producto")  String producto);
 	
 	@GET
-	@Consumes(MediaType.APPLICATION_JSON)	
-	@Produces(MediaType.APPLICATION_JSON)	
-	@Path("/bucarIdentificacion/{fechaInicial}/{fechaFinal}")
-	public ResultadoConsultaCliente buscarFechas (@PathParam("fechaInicial")  String fechaInicial, @PathParam("fechaFinal")  String fechaFinal);
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})	
+	@Path("/buscarFechas/{fechaInicial}/final/{fechaFinal}")
+	public ResultadoConsultaCliente buscarFechas (@Context UriInfo uri);
 	
 	
 }

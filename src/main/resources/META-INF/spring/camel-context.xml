@@ -21,6 +21,8 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </cxf:providers>
     </cxf:rsServer>
+    <bean class="com.clientes.rs.RSClientesImpl"
+        id="itemServiceBean"/>
     <!-- Logging conf -->
     <bean class="org.slf4j.LoggerFactory" factory-method="getLogger" id="contableLog">
         <constructor-arg type="java.lang.String" value="com.ordenes.rs"/>
@@ -35,24 +37,46 @@
             <json id="jack" library="Jackson"/>
         </dataFormats>
         <route id="_route_ordenes" streamCache="true" trace="false">
+            <!-- 
+            <removeHeaders id="_removeHeaders1" pattern="CamelHttp*"/>
+            <log id="_log1" message="INGRESA RUTA HW"/>
+            <setHeader headerName="CamelVelocityResourceUri" id="_setHeader2">
+                <simple>templates/buscarIdentificacion.vm</simple>
+            </setHeader>
+            <to id="_to2" uri="velocity:dummy?loaderCache=false">
+                <description>Get xml request from template velocity</description>
+            </to>
+            <log id="_log2" message="::: Request VM: ${body}"/>
+            
+            <convertBodyTo id="_convertBodyTo1" type="java.lang.String"/>
+            <setBody id="_setBody1">
+                <xpath>//*[local-name()='Body']/node()</xpath>
+            </setBody>
+             -->
             <from id="_from1" uri="cxfrs:bean:rsServer?bindingStyle=Default"/>
-            <log id="_log1" message="Body :::: ${body}"/>
+            <bean id="_bean1"
+                        method="buscarIdentificacion" ref="itemServiceBean"/>
+            <log id="_logHeader" message="Headers :::: ${header.operationName}"/>
+            <log id="_logHeader" message="Headers :::: ${header.id}"/>
+            <log id="_logBody" message="Body :::: ${body}"/>
+            
+            <!-- 
             <setHeader headerName="req" id="_setHeader5">
                 <simple>${body}</simple>
             </setHeader>
-            <!-- 
             <setHeader headerName="CamelVelocityResourceUri" id="_setHeader6">
-                <simple>templates/listarProductoCodigo.vm</simple>
+                <simple>templates/buscarIdentificacion.vm</simple>
             </setHeader>
             <to id="_to2" uri="velocity:dummy?loaderCache=false">
                 <description>Get xml request from template velocity</description>
             </to>
             <log id="_log2" message="Mensaje en Velocity :::: ${body}"/>
+            
             <setHeader headerName="SOAPAction" id="_setHeader7">
-                <constant>"http://xml.decameron.com/manageHolder"</constant>
+                <constant>"http://service.touresbalon.com.co"</constant>
             </setHeader>
             <setHeader headerName="operationName" id="_setHeader8">
-                <constant>manageHolder</constant>
+                <constant>consultarClientePorIdentificacion</constant>
             </setHeader>
             <setHeader headerName="operationNamespace" id="_setHeader9">
                 <constant/>
@@ -65,13 +89,14 @@
                 <constant>POST</constant>
             </setHeader>
             <setHeader headerName="Host" id="_setHeader12">
-                <simple>{{decameron.booking.server}}</simple>
+                <constant>"http://18.217.208.15:38080/omsJboss/ServicioClientes/ClientesService"</constant>
             </setHeader>
             <removeHeaders id="_removeHeaders1" pattern="req"/>
-            <to id="_to3" uri="https4://{{decameron.booking.detail.service.url}}?bridgeEndpoint=true&amp;sslContextParametersRef=sslContextParameters"/>
+            <to id="_to3" uri="https4://18.217.208.15:38080/omsJboss/ServicioClientes/ClientesService?bridgeEndpoint=true&amp;sslContextParametersRef=sslContextParameters"/>
             <setBody id="_setBody1">
                 <xpath logNamespaces="true" trim="true">//SOAP-ENV:Body/node()</xpath>
             </setBody>
+			<log id="_log1" loggerRef="bookingLog" message="::: Request VM: ${body}"/>
 			-->
         </route>
     </camelContext>
