@@ -72,7 +72,7 @@
                 <description>Get xml request from template velocity</description>
             </to>
             <log id="_log2" message="Mensaje en Velocity :::: ${body}"/>
-            <!-- 
+			<!-- 
             <setHeader headerName="SOAPAction" id="_setHeader7">
                 <constant>"http://service.touresbalon.com.co"</constant>
             </setHeader>
@@ -82,23 +82,27 @@
             <setHeader headerName="operationNamespace" id="_setHeader9">
                 <constant/>
             </setHeader>
-            <log id="_log1" loggerRef="bookingLog" message="::: Request VM: ${body}"/>
-            <setHeader headerName="Content-Type" id="_setHeader10">
-                <constant>application/soap+xml;charset=utf-8</constant>
+            <log id="_log1" message="::: Request VM: ${body}"/>
+            -->
+            <removeHeaders id="_removeHeaders1" pattern="CamelHttp*"/>
+            <removeHeaders id="_removeHeaders2" pattern="req"/>
+            <setHeader headerName="CamelHttpMethod">
+			    <constant>POST</constant>
+			</setHeader>  
+			<setHeader headerName="Host" id="_setHeader12">
+                <constant>http://18.217.208.15:38080</constant>
+            </setHeader>   
+             <setHeader headerName="Content-Type" id="_setHeader10">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>  
+            <setHeader headerName="operationName" id="_setHeader8">
+                <constant>consultarClientePorIdentificacion</constant>
             </setHeader>
-            <setHeader headerName="CamelHttpMethod" id="_setHeader11">
-                <constant>POST</constant>
-            </setHeader>
-            <setHeader headerName="Host" id="_setHeader12">
-                <constant>"http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService"</constant>
-            </setHeader>
-            <removeHeaders id="_removeHeaders1" pattern="req"/>
-            <to id="_to3" uri="https4://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true&amp;sslContextParametersRef=sslContextParameters"/>
-            <setBody id="_setBody1">
-                <xpath logNamespaces="true" trim="true">//SOAP-ENV:Body/node()</xpath>
-            </setBody>
-			<log id="_log1" loggerRef="bookingLog" message="::: Request VM: ${body}"/>
-			-->
+            
+            
+            <to id="_to3" uri="http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>       
+			<log id="_logFinal"  message="::: Request VM: ${body}"/>
+			
         </route>
     </camelContext>
 </beans>
