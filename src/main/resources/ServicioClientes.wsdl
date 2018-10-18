@@ -341,7 +341,7 @@
 		<wsdl:port binding="tns:ServicioClientesSoapBinding"
 			name="ClientesServicePort">
 			<soap:address
-				location="http://18.217.208.15:38080/omsJboss/ServicioClientes/ClientesService" />
+				location="http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService" />	         
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

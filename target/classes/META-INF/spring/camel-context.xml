@@ -90,10 +90,10 @@
                 <constant>POST</constant>
             </setHeader>
             <setHeader headerName="Host" id="_setHeader12">
-                <constant>"http://18.217.208.15:38080/omsJboss/ServicioClientes/ClientesService"</constant>
+                <constant>"http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService"</constant>
             </setHeader>
             <removeHeaders id="_removeHeaders1" pattern="req"/>
-            <to id="_to3" uri="https4://18.217.208.15:38080/omsJboss/ServicioClientes/ClientesService?bridgeEndpoint=true&amp;sslContextParametersRef=sslContextParameters"/>
+            <to id="_to3" uri="https4://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true&amp;sslContextParametersRef=sslContextParameters"/>
             <setBody id="_setBody1">
                 <xpath logNamespaces="true" trim="true">//SOAP-ENV:Body/node()</xpath>
             </setBody>
