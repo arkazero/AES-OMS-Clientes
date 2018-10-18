@@ -21,8 +21,7 @@
             <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
         </cxf:providers>
     </cxf:rsServer>
-    <bean class="com.clientes.rs.RSClientesImpl"
-        id="itemServiceBean"/>
+    <bean class="com.clientes.rs.RSClientesImpl" id="itemServiceBean"/>
     <!-- Logging conf -->
     <bean class="org.slf4j.LoggerFactory" factory-method="getLogger" id="contableLog">
         <constructor-arg type="java.lang.String" value="com.ordenes.rs"/>
@@ -54,13 +53,15 @@
             </setBody>
              -->
             <from id="_from1" uri="cxfrs:bean:rsServer?bindingStyle=Default"/>
-            <bean id="_bean1"
-                        method="buscarIdentificacion" ref="itemServiceBean"/>
+            <bean id="_bean1" method="buscarIdentificacion" ref="itemServiceBean"/>
             <log id="_logHeader" message="Headers :::: ${header.operationName}"/>
             <log id="_logHeader" message="Headers :::: ${header.id}"/>
             <log id="_logBody" message="Body :::: ${body}"/>
+            <unmarshal id="_unmarshal1">
+                <jaxb contextPath="co.com.touresbalon.service" prettyPrint="true"/>
+            </unmarshal>
+            <log id="_logBody" message="Body :::: ${body.identificacion}"/>
             
-            <!-- 
             <setHeader headerName="req" id="_setHeader5">
                 <simple>${body}</simple>
             </setHeader>
@@ -71,7 +72,7 @@
                 <description>Get xml request from template velocity</description>
             </to>
             <log id="_log2" message="Mensaje en Velocity :::: ${body}"/>
-            
+            <!-- 
             <setHeader headerName="SOAPAction" id="_setHeader7">
                 <constant>"http://service.touresbalon.com.co"</constant>
             </setHeader>
