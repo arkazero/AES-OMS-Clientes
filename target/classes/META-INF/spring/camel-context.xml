@@ -49,8 +49,7 @@
 					<unmarshal id="_unmarshalCCJ">
 		                <jaxb contextPath="com.dto" prettyPrint="true"/>
 		            </unmarshal>
-					<log id="_logCCJ" loggingLevel="INFO" message="\n\nSe selecciona crearClienteJSON ${body}" />
-<!-- 					<to id="_toCCJ" uri="direct:crearClienteJSON"/>						 -->
+					<to id="_toCCJ-1" uri="direct:crearClienteJSON"/>						 
 				</when>
 				<when id="_whenBI">
 					<simple>${header.operationName} == 'buscarIdentificacion'</simple>
@@ -83,7 +82,36 @@
        		<from id="_fromCCJ" uri="direct:crearClienteJSON"/>
        		
             <log id="_logBodyCCJ-1" message="Body :::: ${body}"/>
-            <log id="_logBodyCCJ-2" message="Body :::: ${body.apellidos}"/>
+            
+            <setHeader headerName="req" id="_setHeader5CCJ">
+                <simple>${body}</simple>
+            </setHeader>
+            <setHeader headerName="CamelVelocityResourceUri" id="_setHeader6CCJ">
+                <simple>templates/crearCliente.vm</simple>
+            </setHeader>
+            <to id="_toCCJ" uri="velocity:dummy?loaderCache=false">
+                <description>Get xml request from template velocity</description>
+            </to>
+            <log id="_log3CCJ" message="Mensaje en Velocity :::: ${body}"/>
+			
+            <removeHeaders id="_removeHeaders1CCJ" pattern="*"/>
+<!--             <removeHeaders id="_removeHeaders2CCJ" pattern="req"/> -->
+            <setHeader headerName="CamelHttpMethod" id="_setHeader11CCJ">
+			    <constant>POST</constant>
+			</setHeader>  
+			<setHeader headerName="Host" id="_setHeader12CCJ">
+                <constant>http://13.58.71.134:38080</constant>
+            </setHeader>   
+             <setHeader headerName="Content-Type" id="_setHeader10CCJ">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>  
+            <setHeader headerName="operationName" id="_setHeader8CCJ">
+                <constant>crearCliente</constant>
+            </setHeader>
+            
+            <to id="_toCCJ" uri="http://13.58.71.134:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>       
+			<log id="_logFinalCJJ"  message="::: Request VM: ${body}"/>
+			 
        	</route>
     	<route id="_routeBI">
        		<from id="_fromBI" uri="direct:buscarIdentificacion"/>
@@ -110,7 +138,7 @@
 			    <constant>POST</constant>
 			</setHeader>  
 			<setHeader headerName="Host" id="_setHeader12">
-                <constant>http://18.217.208.15:38080</constant>
+                <constant>http://13.58.71.134:38080</constant>
             </setHeader>   
              <setHeader headerName="Content-Type" id="_setHeader10">
                 <constant>text/xml;charset=UTF-8</constant>
@@ -120,7 +148,7 @@
             </setHeader>
             
             
-            <to id="_to4BI" uri="http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>       
+            <to id="_to4BI" uri="http://13.58.71.134:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>       
 			<log id="_logFinalBI"  message="::: Request VM: ${body}"/>
             
        	</route>

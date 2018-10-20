@@ -1,0 +1,26 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://service.touresbalon.com.co/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <ser:crearCliente>
+         <!--Optional:-->
+         <cliente>
+            <!--Optional:-->
+            <apellidos>$!{headers.req.apellidos}</apellidos>
+            <!--Optional:-->
+            <correo>$!{headers.req.correo}</correo>
+            <!--Optional:-->
+            <id>$!{headers.req.id}</id>
+            <!--Optional:-->
+            <identificacion>$!{headers.req.identificacion}</identificacion>
+            <!--Optional:-->
+            <nombres>$!{headers.req.nombres}</nombres>
+            <!--Optional:-->
+            <status>$!{headers.req.status}</status>
+            <!--Optional:-->
+            <telefono>$!{headers.req.telefono}</telefono>
+            <!--Optional:-->
+            <tipoTarjeta>$!{headers.req.tipoTarjeta}</tipoTarjeta>
+         </cliente>
+      </ser:crearCliente>
+   </soapenv:Body>
+</soapenv:Envelope>

@@ -52,9 +52,27 @@ public class ClienteJSON {
     protected String id;
     protected String identificacion;
     protected String nombres;
+    protected String numeroTarjeta;
+    protected String password;
     protected String status;
     protected String telefono;
     protected String tipoTarjeta;
+    
+    public String getNumeroTarjeta() {
+		return numeroTarjeta;
+	}
+
+	public void setNumeroTarjeta(String numeroTarjeta) {
+		this.numeroTarjeta = numeroTarjeta;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
     /**
      * Obtiene el valor de la propiedad apellidos.

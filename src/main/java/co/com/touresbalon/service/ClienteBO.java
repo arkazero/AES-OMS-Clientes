@@ -41,6 +41,8 @@ import javax.xml.bind.annotation.XmlType;
     "id",
     "identificacion",
     "nombres",
+    "numeroTarjeta",
+    "password",
     "status",
     "telefono",
     "tipoTarjeta"
@@ -52,6 +54,8 @@ public class ClienteBO {
     protected String id;
     protected String identificacion;
     protected String nombres;
+    protected String numeroTarjeta;
+    protected String password;
     protected String status;
     protected String telefono;
     protected String tipoTarjeta;
