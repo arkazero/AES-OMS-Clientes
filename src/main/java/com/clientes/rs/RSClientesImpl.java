@@ -3,6 +3,10 @@ package com.clientes.rs;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 
+import com.dto.ClienteJSON;
+import com.dto.ObjPrueba;
+
+import co.com.touresbalon.service.ActualizarCliente;
 import co.com.touresbalon.service.FiltroConsultaCliente;
 import co.com.touresbalon.service.ResultadoConsultaCliente;
 
@@ -28,8 +32,12 @@ public class RSClientesImpl implements RSClientes {
 
 	@Override
 	public ResultadoConsultaCliente buscarFechas(UriInfo uri) {
-		MultivaluedMap paramMap = uri.getPathParameters();
-	    
+		return null;
+	}
+
+	@Override
+	public ClienteJSON crearClienteJSON(ClienteJSON clienteNuevo) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

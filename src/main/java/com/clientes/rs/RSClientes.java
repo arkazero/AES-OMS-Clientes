@@ -11,7 +11,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import co.com.touresbalon.service.ClienteBO;
+import com.dto.ClienteJSON;
+import com.dto.ObjPrueba;
+
+import co.com.touresbalon.service.ActualizarCliente;
 import co.com.touresbalon.service.FiltroConsultaCliente;
 import co.com.touresbalon.service.ResultadoConsultaCliente;
 
@@ -37,5 +40,9 @@ public interface RSClientes {
 	@Path("/buscarFechas/{fechaInicial}/final/{fechaFinal}")
 	public ResultadoConsultaCliente buscarFechas (@Context UriInfo uri);
 	
-	
+	@POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Path("/crearClienteJSON") 
+    public ClienteJSON crearClienteJSON(ClienteJSON clienteNuevo);
+								   
 }

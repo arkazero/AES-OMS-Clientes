@@ -10,7 +10,7 @@
 <!-- Configures the Camel Context -->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:cxf="http://camel.apache.org/schema/cxf"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="           http://www.springframework.org/schema/beans    http://www.springframework.org/schema/beans/spring-beans.xsd           http://camel.apache.org/schema/spring    http://camel.apache.org/schema/spring/camel-spring.xsd   http://camel.apache.org/schema/cxf    http://camel.apache.org/schema/cxf/camel-cxf.xsd        http://cxf.apache.org/transports/http/configuration    http://cxf.apache.org/schemas/configuration/http-conf.xsd   ">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="                http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans.xsd                http://camel.apache.org/schema/spring         http://camel.apache.org/schema/spring/camel-spring.xsd        http://camel.apache.org/schema/cxf    http://camel.apache.org/schema/cxf/camel-cxf.xsd             http://cxf.apache.org/transports/http/configuration        http://cxf.apache.org/schemas/configuration/http-conf.xsd   ">
     <import resource="properties-beans.xml"/>
     <!-- EndPoint Rest conf -->
     <cxf:rsServer address="${cxf.server}/Clientes" id="rsServer" serviceClass="com.clientes.rs.RSClientesImpl">
@@ -30,37 +30,68 @@
         <property name="logName" value="mylogger.name"/>
         <property name="level" value="DEBUG"/>
     </bean>
+    
+   
+    
     <camelContext id="_rs_ordenes" trace="false" xmlns="http://camel.apache.org/schema/spring">
         <propertyPlaceholder id="properties" location="ref:confProps"/>
         <dataFormats>
             <json id="jack" library="Jackson"/>
         </dataFormats>
-        <route id="_route_ordenes" streamCache="true" trace="false">
-            <!-- 
-            <removeHeaders id="_removeHeaders1" pattern="CamelHttp*"/>
-            <log id="_log1" message="INGRESA RUTA HW"/>
-            <setHeader headerName="CamelVelocityResourceUri" id="_setHeader2">
-                <simple>templates/buscarIdentificacion.vm</simple>
-            </setHeader>
-            <to id="_to2" uri="velocity:dummy?loaderCache=false">
-                <description>Get xml request from template velocity</description>
-            </to>
-            <log id="_log2" message="::: Request VM: ${body}"/>
-            
-            <convertBodyTo id="_convertBodyTo1" type="java.lang.String"/>
-            <setBody id="_setBody1">
-                <xpath>//*[local-name()='Body']/node()</xpath>
-            </setBody>
-             -->
-            <from id="_from1" uri="cxfrs:bean:rsServer?bindingStyle=Default"/>
-            <bean id="_bean1" method="buscarIdentificacion" ref="itemServiceBean"/>
-            <log id="_logHeader" message="Headers :::: ${header.operationName}"/>
-            <log id="_logHeader" message="Headers :::: ${header.id}"/>
-            <log id="_logBody" message="Body :::: ${body}"/>
-            <unmarshal id="_unmarshal1">
+        <route id="_route_api" streamCache="true" trace="false">
+            <from id="_from1" uri="cxfrs:bean:rsServer?bindingStyle=SimpleConsumer"/>
+             
+            <choice id="_choice">
+				<when id="_whenCCJ">
+					<simple>${header.operationName} == 'crearClienteJSON'</simple>
+					<log id="_logHeader" message="Headers :::: ${header.operationName}"/>
+            		<log id="_logHeader" message="Headers :::: ${header.id}"/>
+					<unmarshal id="_unmarshalCCJ">
+		                <jaxb contextPath="com.dto" prettyPrint="true"/>
+		            </unmarshal>
+					<log id="_logCCJ" loggingLevel="INFO" message="\n\nSe selecciona crearClienteJSON ${body}" />
+<!-- 					<to id="_toCCJ" uri="direct:crearClienteJSON"/>						 -->
+				</when>
+				<when id="_whenBI">
+					<simple>${header.operationName} == 'buscarIdentificacion'</simple>
+					<bean id="_bean1" method="buscarIdentificacion" ref="itemServiceBean"/>
+					<log id="_logHeader" message="Headers :::: ${header.operationName}"/>
+            		<log id="_logHeader" message="Headers :::: ${header.id}"/>
+            		<log id="_logBody" message="Body :::: ${body}"/>
+					<unmarshal id="_unmarshalBI">
+		                <jaxb contextPath="co.com.touresbalon.service" prettyPrint="true"/>
+		            </unmarshal> 
+					<log id="_logBI" loggingLevel="INFO" message="\n\nSe selecciona crearbuscarIdentificacion ${body}" />
+					<to id="_toBI" uri="direct:buscarIdentificacion"/>
+				</when>
+				<when id="_whenBP">
+					<simple>${header.operationName} == 'buscarProducto'</simple>
+					<log id="_logBP" loggingLevel="INFO" message="\n\nSe selecciona creabuscarProducto ${body}" />
+<!-- 					<to id="_toBP" uri="direct:buscarProducto"/>							 -->
+				</when>
+				<when id="_whenBF">
+					<simple>${header.operationName} == 'buscarFechas'</simple>
+					<log id="_logBF" loggingLevel="INFO" message="\n\nSe selecciona crearFecha ${body}" />
+<!-- 					<to id="_toBF" uri="direct:buscarFechas"/>							 -->
+				</when>
+				<otherwise>
+							
+				</otherwise>			
+			</choice>
+       	</route>
+       	<route id="_routeCCJ">
+       		<from id="_fromCCJ" uri="direct:crearClienteJSON"/>
+       		
+            <log id="_logBodyCCJ-1" message="Body :::: ${body}"/>
+            <log id="_logBodyCCJ-2" message="Body :::: ${body.apellidos}"/>
+       	</route>
+    	<route id="_routeBI">
+       		<from id="_fromBI" uri="direct:buscarIdentificacion"/>
+       		
+       		<unmarshal id="_unmarshal1">
                 <jaxb contextPath="co.com.touresbalon.service" prettyPrint="true"/>
             </unmarshal>
-            <log id="_logBody" message="Body :::: ${body.identificacion}"/>
+            <log id="_logBodyBI" message="Body :::: ${body.identificacion}"/>
             
             <setHeader headerName="req" id="_setHeader5">
                 <simple>${body}</simple>
@@ -68,22 +99,11 @@
             <setHeader headerName="CamelVelocityResourceUri" id="_setHeader6">
                 <simple>templates/buscarIdentificacion.vm</simple>
             </setHeader>
-            <to id="_to2" uri="velocity:dummy?loaderCache=false">
+            <to id="_to2BI" uri="velocity:dummy?loaderCache=false">
                 <description>Get xml request from template velocity</description>
             </to>
-            <log id="_log2" message="Mensaje en Velocity :::: ${body}"/>
-			<!-- 
-            <setHeader headerName="SOAPAction" id="_setHeader7">
-                <constant>"http://service.touresbalon.com.co"</constant>
-            </setHeader>
-            <setHeader headerName="operationName" id="_setHeader8">
-                <constant>consultarClientePorIdentificacion</constant>
-            </setHeader>
-            <setHeader headerName="operationNamespace" id="_setHeader9">
-                <constant/>
-            </setHeader>
-            <log id="_log1" message="::: Request VM: ${body}"/>
-            -->
+            <log id="_log3BI" message="Mensaje en Velocity :::: ${body}"/>
+			
             <removeHeaders id="_removeHeaders1" pattern="CamelHttp*"/>
             <removeHeaders id="_removeHeaders2" pattern="req"/>
             <setHeader headerName="CamelHttpMethod">
@@ -100,9 +120,38 @@
             </setHeader>
             
             
-            <to id="_to3" uri="http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>       
-			<log id="_logFinal"  message="::: Request VM: ${body}"/>
-			
-        </route>
+            <to id="_to4BI" uri="http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>       
+			<log id="_logFinalBI"  message="::: Request VM: ${body}"/>
+            
+       	</route>
+            <!-- 
+            <setHeader headerName="req" id="_setHeader5">
+                <simple>${body}</simple>
+            </setHeader>
+            <setHeader headerName="CamelVelocityResourceUri" id="_setHeader6">
+                <simple>templates/buscarIdentificacion.vm</simple>
+            </setHeader>
+            <to id="_to2" uri="velocity:dummy?loaderCache=false">
+                <description>Get xml request from template velocity</description>
+            </to>
+            <log id="_log2" message="Mensaje en Velocity :::: ${body}"/>
+            <removeHeaders id="_removeHeaders1" pattern="CamelHttp*"/>
+            <removeHeaders id="_removeHeaders2" pattern="req"/>
+            <setHeader headerName="CamelHttpMethod" id="_setHeader1">
+                <constant>POST</constant>
+            </setHeader>
+            <setHeader headerName="Host" id="_setHeader12">
+                <constant>http://18.217.208.15:38080</constant>
+            </setHeader>
+            <setHeader headerName="Content-Type" id="_setHeader10">
+                <constant>text/xml;charset=UTF-8</constant>
+            </setHeader>
+            <setHeader headerName="operationName" id="_setHeader8">
+                <constant>consultarClientePorIdentificacion</constant>
+            </setHeader>
+            <to id="_to3" uri="http://18.217.208.15:38080/clientes/ServicioClientes/ClientesService?bridgeEndpoint=true"/>
+            <log id="_logFinal" message="::: Request VM: ${body}"/>
+             -->
+        
     </camelContext>
 </beans>

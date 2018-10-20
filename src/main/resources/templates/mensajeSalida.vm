@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+xmlns:tour="http://touresBalon.pica.com.co"
+>
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tour:mensajeSalida>
+		 <tour:resultado>Se recibieron $!{headers.id} ordenes que seran procesadas</tour:resultado>
+      </tour:mensajeSalida>
+   </soapenv:Body>
+</soapenv:Envelope>
